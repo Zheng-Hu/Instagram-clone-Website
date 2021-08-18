@@ -1,0 +1,15 @@
+[
+    {
+      "url": "/",
+      "template": "explore.html",
+      "context": {
+        "logname": "JINJATEST2",
+        "not_following": [
+          {
+            "username": "JINJATEST2",
+            "user_img_url": "JINJATEST2"
+          }
+        ]
+      }
+    }
+  ]

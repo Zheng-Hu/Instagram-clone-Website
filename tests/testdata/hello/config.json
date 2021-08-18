@@ -1,0 +1,12 @@
+[
+    {
+        "url": "/",
+        "template": "index.html",
+        "context": {
+            "words": [
+                "hello",
+                "world"
+            ]
+        }
+    }
+]

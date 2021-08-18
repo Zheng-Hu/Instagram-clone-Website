@@ -1,0 +1,21 @@
+[
+    {
+      "url": "/",
+      "template": "following.html",
+      "context": {
+        "logname": "JINJATEST2",
+        "following": [
+          {
+            "username": "JINJATEST2",
+            "user_img_url": "JINJATEST2",
+            "logname_follows_username": true
+          },
+          {
+            "username": "JINJATEST2",
+            "user_img_url": "JINJATEST2",
+            "logname_follows_username": true
+          }
+        ]
+      }
+    }
+  ]

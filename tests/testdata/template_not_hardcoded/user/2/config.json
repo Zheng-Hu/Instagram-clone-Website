@@ -1,0 +1,25 @@
+[
+    {
+      "url": "/",
+      "template": "user.html",
+      "context": {
+        "logname": "JINJATEST2",
+        "username": "JINJATEST2",
+        "logname_follows_username": false,
+        "fullname": "JINJATEST2",
+        "following": 2,
+        "followers": 2,
+        "total_posts" : 2,
+        "posts": [
+          {
+            "postid": "1",
+            "img_url": "JINJATEST2"
+          },
+          {
+            "postid": "3",
+            "img_url": "JINJATEST2"
+          }
+        ]
+      }
+    }
+]

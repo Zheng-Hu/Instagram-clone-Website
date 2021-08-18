@@ -1,0 +1,25 @@
+[
+    {
+      "url": "/",
+      "template": "post.html",
+      "context": {
+        "logname": "JINJATEST2",
+        "postid": "1",
+        "owner": "JINJATEST2",
+        "owner_img_url": "JINJATEST2",
+        "img_url": "JINJATEST2",
+        "timestamp": "JINJATEST2",
+        "likes": 3,
+        "comments": [
+          {
+            "owner": "JINJATEST2",
+            "text": "JINJATEST2"
+          },
+          {
+            "owner": "JINJATEST2",
+            "text": "JINJATEST2"
+          }
+        ]
+      }
+    }
+]

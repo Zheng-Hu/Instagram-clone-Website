@@ -1,0 +1,9 @@
+body {
+    background: pink;
+}
+
+
+div.important {
+    font-weight: bold;
+    font-size: 1000%;
+}

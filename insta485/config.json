@@ -1,0 +1,386 @@
+[
+  {
+    "url": "/",
+    "template": "index.html",
+    "context": {
+      "logname": "awdeorio",
+      "posts": [
+        {
+          "postid": "3",
+          "owner": "awdeorio",
+          "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+          "timestamp": "10 minutes ago",
+          "likes": 1,
+          "comments": [
+            {
+              "owner": "awdeorio",
+              "text": "#chickensofinstagram"
+            },
+            {
+              "owner": "jflinn",
+              "text": "I <3 chickens"
+            },
+            {
+              "owner": "michjc",
+              "text": "Cute overload!"
+            }
+          ]
+        },
+        {
+          "postid": "2",
+          "owner": "jflinn",
+          "owner_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+          "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
+          "timestamp": "4 hours ago",
+          "likes": 2,
+          "comments": [
+            {
+              "owner": "awdeorio",
+              "text": "Sick #crossword"
+            }
+          ]
+        },
+        {
+          "postid": "1",
+          "owner": "awdeorio",
+          "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
+          "timestamp": "a day ago",
+          "likes": 3,
+          "comments": [
+            {
+              "owner": "jflinn",
+              "text": "Walking the plank #chickensofinstagram"
+            },
+            {
+              "owner": "awdeorio",
+              "text": "This was after trying to teach them to do a #crossword"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/awdeorio/",
+    "template": "user.html",
+    "context": {
+      "logname": "awdeorio",
+      "username": "awdeorio",
+      "logname_follows_username": false,
+      "fullname": "Andrew DeOrio",
+      "following": 2,
+      "followers": 2,
+      "total_posts" : 2,
+      "posts": [
+        {
+          "postid": "1",
+          "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg"
+        },
+        {
+          "postid": "3",
+          "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/awdeorio/following/",
+    "template": "following.html",
+    "context": {
+      "logname": "awdeorio",
+      "following": [
+        {
+          "username": "jflinn",
+          "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+          "logname_follows_username": true
+        },
+        {
+          "username": "michjc",
+          "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/awdeorio/followers/",
+    "template": "followers.html",
+    "context": {
+      "logname": "awdeorio",
+      "followers": [
+        {
+          "username": "jflinn",
+          "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+          "logname_follows_username": true
+        },
+        {
+          "username": "michjc",
+          "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/jflinn/",
+    "template": "user.html",
+    "context": {
+      "logname": "awdeorio",
+      "username": "jflinn",
+      "logname_follows_username": true,
+      "fullname": "Jason Flinn",
+      "following": 2,
+      "followers": 1,
+      "total_posts" : 1,
+      "posts": [
+        {
+          "postid": "2",
+          "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/jflinn/following/",
+    "template": "following.html",
+    "context": {
+      "logname": "awdeorio",
+      "following": [
+        {
+          "username": "awdeorio",
+          "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "logname_follows_username": false
+        },
+        {
+          "username": "michjc",
+          "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/jflinn/followers/",
+    "template": "followers.html",
+    "context": {
+      "logname": "awdeorio",
+      "followers": [
+        {
+          "username": "awdeorio",
+          "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "logname_follows_username": false
+        }
+      ]
+    }
+  },
+
+
+
+  {
+    "url": "/u/jag/",
+    "template": "user.html",
+    "context": {
+      "logname": "awdeorio",
+      "username": "jag",
+      "logname_follows_username": false,
+      "fullname": "H.V. Jagadish",
+      "following": 1,
+      "followers": 1,
+      "total_posts" : 1,
+      "posts": [
+        {
+          "postid": "4",
+          "img_url": "/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/jag/following/",
+    "template": "following.html",
+    "context": {
+      "logname": "awdeorio",
+      "following": [
+        {
+          "username": "michjc",
+          "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/jag/followers/",
+    "template": "followers.html",
+    "context": {
+      "logname": "awdeorio",
+      "followers": [
+        {
+          "username": "michjc",
+          "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/michjc/",
+    "template": "user.html",
+    "context": {
+      "logname": "awdeorio",
+      "username": "michjc",
+      "logname_follows_username": true,
+      "fullname": "Michael Cafarella",
+      "following": 2,
+      "followers": 3,
+      "total_posts" : 0,
+      "posts": []
+    }
+  },
+  {
+    "url": "/u/michjc/following/",
+    "template": "following.html",
+    "context": {
+      "logname": "awdeorio",
+      "following": [
+        {
+          "username": "awdeorio",
+          "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "logname_follows_username": false
+        },
+        {
+          "username": "jag",
+          "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+          "logname_follows_username": false
+        }
+      ]
+    }
+  },
+  {
+    "url": "/u/michjc/followers/",
+    "template": "followers.html",
+    "context": {
+      "logname": "awdeorio",
+      "followers": [
+        {
+          "username": "awdeorio",
+          "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+          "logname_follows_username": false
+        },
+        {
+          "username": "jag",
+          "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+          "logname_follows_username": false
+        },
+        {
+          "username": "jflinn",
+          "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+          "logname_follows_username": true
+        }
+      ]
+    }
+  },
+  {
+    "url": "/p/1/",
+    "template": "post.html",
+    "context": {
+      "logname": "awdeorio",
+      "postid": "1",
+      "owner": "awdeorio",
+      "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+      "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
+      "timestamp": "a day ago",
+      "likes": 3,
+      "comments": [
+        {
+          "owner": "jflinn",
+          "text": "Walking the plank #chickensofinstagram"
+        },
+        {
+          "owner": "awdeorio",
+          "text": "This was after trying to teach them to do a #crossword"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/p/2/",
+    "template": "post.html",
+    "context": {
+      "logname": "awdeorio",
+      "postid": "2",
+      "owner": "jflinn",
+      "owner_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+      "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
+      "timestamp": "4 hours ago",
+      "likes": 2,
+      "comments": [
+        {
+          "owner": "awdeorio",
+          "text": "Sick #crossword"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/p/3/",
+    "template": "post.html",
+    "context": {
+      "logname": "awdeorio",
+      "postid": "3",
+      "owner": "awdeorio",
+      "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+      "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+      "timestamp": "10 minutes ago",
+      "likes": 1,
+      "comments": [
+        {
+          "owner": "awdeorio",
+          "text": "#chickensofinstagram"
+        },
+        {
+          "owner": "jflinn",
+          "text": "I <3 chickens"
+        },
+        {
+          "owner": "michjc",
+          "text": "Cute overload!"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/p/4/",
+    "template": "post.html",
+    "context": {
+      "logname": "awdeorio",
+      "postid": "4",
+      "owner": "jag",
+      "owner_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+      "img_url": "/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg",
+      "timestamp": "seconds ago",
+      "likes": 0,
+      "comments": [
+        {
+          "owner": "jag",
+          "text": "Saw this on the diag yesterday!"
+        }
+      ]
+    }
+  },
+  {
+    "url": "/explore/",
+    "template": "explore.html",
+    "context": {
+      "logname": "awdeorio",
+      "not_following": [
+        {
+          "username": "jag",
+          "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg"
+        }
+      ]
+    }
+  }
+]
