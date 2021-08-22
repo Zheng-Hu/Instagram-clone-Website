@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#topbar {
+    height: 100px;
+    margin: 0 auto;
+    border-bottom: 1px solid black;
+    #topnav {
+        float: right;
+        line-height: 100px;
+        ul {
+            list-style: none;
+            margin-right: 20px;
+            margin-top:30px;
+            height: 40px;
+            li {
+                float:left;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                a {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 20px;
+                    padding: 0 8px;
+                    color: red;
+                    text-decoration: none;
+                    -webkit-transition: all 0.2s linear;
+                    -moz-transition: all 0.2s linear;
+                    transition: all 0.2s linear;
+                }
+            }
+            li:first-child {
+                border-right: 1px solid black; 
+            }
+        }
+    }
+}
