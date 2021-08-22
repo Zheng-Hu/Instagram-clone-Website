@@ -6,14 +6,25 @@
     height: 100px;
     margin: 0 auto;
     border-bottom: 1px solid black;
+    #logo {
+        float:left;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        padding-right: 20px;
+        img:last-child {
+            border-left: 2px solid black;
+        }
+    }
     #topnav {
         float: right;
-        line-height: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
         ul {
             list-style: none;
             margin-right: 20px;
-            margin-top:30px;
-            height: 40px;
+            height: 20px;
             li {
                 float:left;
                 font-weight: bold;
@@ -24,15 +35,18 @@
                     font-size: 1.2em;
                     line-height: 20px;
                     padding: 0 8px;
-                    color: red;
+                    color: #363a3c;
                     text-decoration: none;
-                    -webkit-transition: all 0.2s linear;
-                    -moz-transition: all 0.2s linear;
-                    transition: all 0.2s linear;
+                    -webkit-transition: all 0.3s linear;
+                    -moz-transition: all 0.3s linear;
+                    transition: all 0.3s linear;
+                }
+                a:hover {
+                    color: #458ba7;
                 }
             }
             li:first-child {
-                border-right: 1px solid black; 
+                border-right: 2px solid black; 
             }
         }
     }
