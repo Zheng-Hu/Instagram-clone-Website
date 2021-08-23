@@ -2,6 +2,35 @@
     margin: 0;
     padding: 0;
 }
+#body {
+    width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    ul {
+     margin-top: 40px;   
+     list-style: none;
+     li {
+        margin-top: 20px;
+        border: 1px solid black;
+        .topuser {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            
+            img {
+                align-self:flex-start;
+            }
+            p {
+                align-self:unset;
+            }
+        }
+
+     }
+    }
+
+}
+
+
 #topbar {
     height: 100px;
     margin: 0 auto;
@@ -12,7 +41,7 @@
         display: flex;
         align-items: center;
         padding-right: 20px;
-        img:last-child {
+        img:nth-child(1) {
             border-left: 2px solid black;
         }
     }
@@ -45,7 +74,7 @@
                     color: #458ba7;
                 }
             }
-            li:first-child {
+            li:nth-child(1) {
                 border-right: 2px solid black; 
             }
         }
