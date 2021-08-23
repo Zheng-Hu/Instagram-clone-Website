@@ -14,23 +14,25 @@
         border: 1px solid black;
         .topuser {
             height: 100px;
-            display: flex;
-            align-items: center;
-            
-            img {
-                align-self:flex-start;
+            .userinfo {
+                float:left;
+                height: 100px;
+                img {
+                    
+                }
+                span{
+                    line-height: 100px;
+                }
             }
             p {
-                align-self:unset;
+                float: right;
+                line-height: 100px;
             }
         }
 
      }
     }
-
 }
-
-
 #topbar {
     height: 100px;
     margin: 0 auto;
