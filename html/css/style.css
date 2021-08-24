@@ -7,6 +7,7 @@
   width: 800px;
   height: 100%;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 #body ul {
@@ -20,21 +21,30 @@
 }
 
 #body ul li .topuser {
-  height: 100px;
+  height: 80px;
 }
 
 #body ul li .topuser .userinfo {
   float: left;
-  height: 100px;
+  height: 80px;
+}
+
+#body ul li .topuser .userinfo img {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 #body ul li .topuser .userinfo span {
   line-height: 100px;
+  margin-top: 1000px;
 }
 
 #body ul li .topuser p {
   float: right;
-  line-height: 100px;
+  line-height: 80px;
+  margin-right: 15px;
+  margin-left: 15px;
+  font-weight: 700;
 }
 
 #topbar {
@@ -104,5 +114,19 @@
 
 #topbar #topnav ul li:nth-child(1) {
   border-right: 2px solid black;
+}
+
+.comment {
+  margin: 10px;
+}
+
+.comment #usercomment {
+  margin-top: 15px;
+}
+
+.comment #usercomment span:first-child {
+  font-weight: 600;
+  margin-right: 10px;
+  cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */
