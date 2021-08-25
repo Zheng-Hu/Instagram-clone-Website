@@ -1,0 +1,9 @@
+setup.py
+insta485generator.egg-info/PKG-INFO
+insta485generator.egg-info/SOURCES.txt
+insta485generator.egg-info/dependency_links.txt
+insta485generator.egg-info/entry_points.txt
+insta485generator.egg-info/requires.txt
+insta485generator.egg-info/top_level.txt
+instagenerator/__init__.py
+instagenerator/__main__.py
