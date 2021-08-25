@@ -1,3 +1,0 @@
-[console_scripts]
-instagenerator = instagenerator.__main__:main
-

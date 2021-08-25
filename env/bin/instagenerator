@@ -1,10 +1,10 @@
 #!/Users/zhenghu/Documents/GitHub/Instagram-clone-Website/env/bin/python3.9
-# EASY-INSTALL-ENTRY-SCRIPT: 'instagenerator','console_scripts','instagenerator'
+# EASY-INSTALL-ENTRY-SCRIPT: 'instag485enerator','console_scripts','insta485generator'
 import re
 import sys
 
 # for compatibility with easy_install; see #2198
-__requires__ = 'instagenerator'
+__requires__ = 'insta485generator'
 
 try:
     from importlib.metadata import distribution
@@ -30,4 +30,4 @@ globals().setdefault('load_entry_point', importlib_load_entry_point)
 
 if __name__ == '__main__':
     sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
-    sys.exit(load_entry_point('instagenerator', 'console_scripts', 'instagenerator')())
+    sys.exit(load_entry_point('insta485generator', 'console_scripts', 'insta485generator')())

@@ -7,9 +7,9 @@ Andrew DeOrio <awdeorio@umich.edu>
 from setuptools import setup
 
 setup(
-    name='instagenerator',
+    name='insta485generator',
     version='0.1.0',
-    packages=['instagenerator'],
+    packages=['insta485generator'],
     include_package_data=True,
     install_requires=[
         'bs4',
@@ -25,7 +25,7 @@ setup(
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'instagenerator = instagenerator.__main__:main'
+            'instag485enerator = insta485generator.__main__:main'
         ]
     },
 )

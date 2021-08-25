@@ -1,9 +1,0 @@
-setup.py
-instagenerator/__init__.py
-instagenerator/__main__.py
-instagenerator.egg-info/PKG-INFO
-instagenerator.egg-info/SOURCES.txt
-instagenerator.egg-info/dependency_links.txt
-instagenerator.egg-info/entry_points.txt
-instagenerator.egg-info/requires.txt
-instagenerator.egg-info/top_level.txt
