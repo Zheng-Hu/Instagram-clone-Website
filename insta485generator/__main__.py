@@ -6,7 +6,6 @@ import pathlib
 import click
 import jinja2
 
-
 @click.command()
 @click.option('-o', '--output', help="Output directory.")
 @click.option('-v', '--verbose', is_flag=True, help="Print more output.")

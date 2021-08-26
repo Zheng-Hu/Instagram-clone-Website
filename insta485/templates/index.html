@@ -10,15 +10,16 @@
 <body>
     <!-- 头部banner -->
     <header id = "topbar">
+        <!-- 左边Logo -->
         <class id = "logo">
             <a href="/"><img src = "images/instagramLogo.jpeg" width="100" height="70"></a>
             <a href="/"><img src = "images/instagram.jpg" width="119" height="36"> </a>
         </class>
-
+        <!-- 右边导航 -->
         <nav id = "topnav">
             <ul>
                 <li><a href = "/explore/">explore</a></li>
-                <li><a href = "/u/awdeorio/" >awdeorio</a></li>
+                <li><a href = "/u/<logged_in_user>/" >awdeorio</a></li>
             </ul>
         </nav>
     </header>
@@ -28,10 +29,13 @@
             <li id = "a">
                 <div class = "topuser">
                     <div class = "userinfo">
-                        <img src = "uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" width="50" height="50">
-                        <p>awdeorio</p>
-                    </div> 
-                    <p>1 minute ago</p>
+                        <a href="/u/<user_url_slug>/">
+                            <img src = "uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" width="50" height="50">
+                            <p>awdeorio</p>
+                        </a>
+                    </div>
+                     
+                    <a href="/p/<postid_slug>/"><p>1 minute ago</p></a>
                 </div>
 
                 <img src = "uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg" width="800" height="500">
