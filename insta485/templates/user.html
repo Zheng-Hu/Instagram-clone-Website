@@ -5,30 +5,64 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>instagram</title>
-    <link rel = "stylesheet" href="/GitHub/Instagram-clone-Website/html/css/style.css"> 
+    <link rel = "stylesheet" href="/insta485/static/style.css"> 
 </head>
 <body>
     <!-- 头部banner -->
+    
     <header id = "topbar">
+        <!-- 左边Logo -->
         <class id = "logo">
-            <a href="/"><img src = "../../images/instagramLogo.jpeg" width="100" height="70"></a>
-            <a href="/"><img src = "../../images/instagram.jpg" width="119" height="36"> </a>
+            <a href="/"><img src = "/insta485/static//images/instagramLogo.jpeg" width="100" height="70"></a>
+            <a href="/"><img src = "/insta485/static/images/instagram.jpg" width="119" height="36"> </a>
         </class>
-
+        <!-- 右边导航 -->
         <nav id = "topnav">
             <ul>
                 <li><a href = "/explore/">explore</a></li>
-                <li><a href = "/u/zhenghu/" >awdeorio</a></li>
+                <li><a href = "/u/{{logname}}/" >{{logname}}</a></li>
             </ul>
         </nav>
     </header>
     <!-- 中间内容 --> 
     <div id = "body">
-        <h1> awdeorio</h1>
+        <h1> <span>{{username}}</h1>
+        <!-- 判断是否following -->
+        {% if username != logname and logname_follows_username %}
+            <p>following</p>
+        {% elif username != logname and not logname_follows_username %}
+            <p>Not following</p>
+        {% endif %}
+
         <div class = "count">
-            <span>2 posts</span> <span>2 followers</span> <span>2 following</span>
+        <!-- Number of posts, with correct English -->
+            {% if not posts %}
+                <span>0 post</span>
+            {% endif %}
+        
+            {% if total_posts == 1%}  
+                <span>{{total_posts}} post</span>
+            {% else %}
+                <span>{{total_posts}} posts</span>
+            {% endif %}
+
+
+        <!-- Number of followers, with correct English -->
+            {% if followers > 1%}
+                <span>{{followers}} followers</span>
+            {% else %}
+                <span>{{followers}} follwer</span>
+            {% endif %}
+
+            <!-- Number of following, with correct English -->
+            <span>{{following}} following</span>
         </div>
-        <p>Andrew DeOrio</p>
+        <!-- owner's name -->
+        <p> {{fullname}}</p>
+
+        {%for post in posts%}
+            <a href="/p/{{post['postid']}}/" target="_blank"> <img src= "{{post['img_url']}}" alt="Relevant textual alternative to the image"   width="150" height="100"> </a>
+        {%endfor%}
     </div>
 </body>
 </html>

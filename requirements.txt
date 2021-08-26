@@ -5,7 +5,7 @@ bs4==0.0.1
 certifi==2021.5.30
 chardet==4.0.0
 click==8.0.1
-html5validator==0.4.0
+html5validator==0.4.0 # html5 语法检测
 idna==2.10
 iniconfig==1.1.1
 isort==5.9.1
@@ -18,7 +18,7 @@ pluggy==0.13.1
 py==1.10.0
 pycodestyle==2.7.0
 pydocstyle==6.1.1
-pylint==2.8.3
+pylint==2.8.3  # 语法检测
 pyparsing==2.4.7
 pytest==6.2.4
 PyYAML==5.4.1

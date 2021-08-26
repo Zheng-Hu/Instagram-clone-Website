@@ -8,8 +8,8 @@
           {
             "postid": "3",
             "owner": "awdeorio",
-            "owner_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-            "img_url": "../static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+            "owner_img_url": "/insta485/static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "img_url": "/insta485/static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
             "timestamp": "10 minutes ago",
             "likes": 1,
             "comments": [
@@ -76,11 +76,11 @@
         "posts": [
           {
             "postid": "1",
-            "img_url": "../static/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg"
+            "img_url": "/insta485/html/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg"
           },
           {
             "postid": "3",
-            "img_url": "../static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg"
+            "img_url": "/insta485/html/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg"
           }
         ]
       }
@@ -136,6 +136,7 @@
         "total_posts" : 1,
         "posts": [
           {
+            "number": "1",
             "postid": "2",
             "img_url": "../static/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg"
           }
