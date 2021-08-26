@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>instagram</title>
-    <link rel = "stylesheet" href="/GitHub/Instagram-clone-Website/html/css/style.css"> 
+    <link rel = "stylesheet" href="style.css"> 
 </head>
 <body>
     <!-- 头部banner -->
@@ -19,68 +19,43 @@
         <nav id = "topnav">
             <ul>
                 <li><a href = "/explore/">explore</a></li>
-                <li><a href = "/u/<logged_in_user>/" >awdeorio</a></li>
+                <li><a href = "/u/{{logname}}/" >{{logname}}</a></li>
             </ul>
         </nav>
     </header>
     <!-- 中间内容 --> 
     <div id = "body">
         <ul>
-            <li id = "a">
-                <div class = "topuser">
-                    <div class = "userinfo">
-                        <a href="/u/<user_url_slug>/">
-                            <img src = "uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" width="50" height="50">
-                            <p>awdeorio</p>
-                        </a>
+
+            {% for post in posts %}
+                <!-- user-topbar -->
+                <li id = "a">
+                    <div class = "topuser">
+                        <div class = "userinfo">
+                            <img src = {{post['owner_img_url']}} alt = "profile-picture" width="50" height="50">
+                            <a href="/u/{{post['owner']}}/" target="_blank"><p>{{post['owner']}}</p></a>
+                        </div> 
+                        <a href="/p/{{post['postid']}}/" target="_blank"><p>{{post['timestamp']}}</p></a>
                     </div>
-                     
-                    <a href="/p/<postid_slug>/"><p>1 minute ago</p></a>
-                </div>
+                    <!-- image-content -->
+                    <a href="/u/{{post['owner']}}/" target="_blank"><img src = {{post["img_url"]}} alt = "content-image" width="800" height="500"></a>
+                    <div class = "comment">
 
-                <img src = "uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg" width="800" height="500">
-                <div class = "comment">
-                    <p id = "like">1 like</p>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                </div>
-            </li>
-            
-            <li id = "a">
-                <div class = "topuser">
-                    <div class = "userinfo">
-                        <img src = "uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg" width="50" height="50">
-                        <p>awdeorio</p>
-                    </div> 
-                    <p>1 minute ago</p>
-                </div>
-
-                <img src = "uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg" width="800" height="500">
-                <div class = "comment">
-                    <p id = "like">1 like</p>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                </div>
-            </li>
-            <li id = "a">
-                <div class = "topuser">
-                    <div class = "userinfo">
-                        <img src = "uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg" width="50" height="50">
-                        <p>awdeorio</p>
-                    </div> 
-                    <p>1 minute ago</p>
-                </div>
-
-                <img src = "uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg" width="800" height="500">
-                <div class = "comment">
-                    <p id = "like">1 like</p>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                    <div id = "usercomment"><span>awdeorio</span><span>#chickensofinstgram</span></div>
-                </div>
-            </li>
+                        <!-- Deal with display like or likes -->
+                        {% if post['likes'] == 1 %}
+                            <p id = "like">1 like</p>
+                        {% else %}
+                            <p id = "like">{{post['likes']}} likes</p>
+                        {% endif %}
+                        <!-- Comments part -->
+                        {% for comment in post['comments'] %}
+                        <a href="/u/{{comment['owner']}}/" target="_blank">
+                            <div id = "usercomment"><span>{{comment['owner']}}</span><span>{{comment['text']}}</span></div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
         <ul>
     </div>
 </body>

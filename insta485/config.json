@@ -8,8 +8,8 @@
           {
             "postid": "3",
             "owner": "awdeorio",
-            "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-            "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+            "owner_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "img_url": "../static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
             "timestamp": "10 minutes ago",
             "likes": 1,
             "comments": [
@@ -30,8 +30,8 @@
           {
             "postid": "2",
             "owner": "jflinn",
-            "owner_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
-            "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
+            "owner_img_url": "../static/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+            "img_url": "../static/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
             "timestamp": "4 hours ago",
             "likes": 2,
             "comments": [
@@ -44,8 +44,8 @@
           {
             "postid": "1",
             "owner": "awdeorio",
-            "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-            "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
+            "owner_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "img_url": "../static/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
             "timestamp": "a day ago",
             "likes": 3,
             "comments": [
@@ -76,11 +76,11 @@
         "posts": [
           {
             "postid": "1",
-            "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg"
+            "img_url": "../static/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg"
           },
           {
             "postid": "3",
-            "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg"
+            "img_url": "../static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg"
           }
         ]
       }
@@ -93,12 +93,12 @@
         "following": [
           {
             "username": "jflinn",
-            "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+            "user_img_url": "../static/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
             "logname_follows_username": true
           },
           {
             "username": "michjc",
-            "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+            "user_img_url": "../static/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
             "logname_follows_username": true
           }
         ]
@@ -112,12 +112,12 @@
         "followers": [
           {
             "username": "jflinn",
-            "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+            "user_img_url": "../static/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
             "logname_follows_username": true
           },
           {
             "username": "michjc",
-            "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+            "user_img_url": "../static/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
             "logname_follows_username": true
           }
         ]
@@ -137,7 +137,7 @@
         "posts": [
           {
             "postid": "2",
-            "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg"
+            "img_url": "../static/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg"
           }
         ]
       }
@@ -150,12 +150,12 @@
         "following": [
           {
             "username": "awdeorio",
-            "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "user_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
             "logname_follows_username": false
           },
           {
             "username": "michjc",
-            "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+            "user_img_url": "../static/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
             "logname_follows_username": true
           }
         ]
@@ -169,7 +169,7 @@
         "followers": [
           {
             "username": "awdeorio",
-            "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "user_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
             "logname_follows_username": false
           }
         ]
@@ -192,7 +192,7 @@
         "posts": [
           {
             "postid": "4",
-            "img_url": "/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg"
+            "img_url": "../static/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg"
           }
         ]
       }
@@ -205,7 +205,7 @@
         "following": [
           {
             "username": "michjc",
-            "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+            "user_img_url": "../static/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
             "logname_follows_username": true
           }
         ]
@@ -219,7 +219,7 @@
         "followers": [
           {
             "username": "michjc",
-            "user_img_url": "/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
+            "user_img_url": "../static/uploads/5ecde7677b83304132cb2871516ea50032ff7a4f.jpg",
             "logname_follows_username": true
           }
         ]
@@ -247,12 +247,12 @@
         "following": [
           {
             "username": "awdeorio",
-            "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "user_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
             "logname_follows_username": false
           },
           {
             "username": "jag",
-            "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+            "user_img_url": "../static/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
             "logname_follows_username": false
           }
         ]
@@ -266,17 +266,17 @@
         "followers": [
           {
             "username": "awdeorio",
-            "user_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+            "user_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
             "logname_follows_username": false
           },
           {
             "username": "jag",
-            "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+            "user_img_url": "../static/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
             "logname_follows_username": false
           },
           {
             "username": "jflinn",
-            "user_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+            "user_img_url": "../static/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
             "logname_follows_username": true
           }
         ]
@@ -289,8 +289,8 @@
         "logname": "awdeorio",
         "postid": "1",
         "owner": "awdeorio",
-        "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-        "img_url": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
+        "owner_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+        "img_url": "../static/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
         "timestamp": "a day ago",
         "likes": 3,
         "comments": [
@@ -312,8 +312,8 @@
         "logname": "awdeorio",
         "postid": "2",
         "owner": "jflinn",
-        "owner_img_url": "/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
-        "img_url": "/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
+        "owner_img_url": "../static/uploads/505083b8b56c97429a728b68f31b0b2a089e5113.jpg",
+        "img_url": "../static/uploads/ad7790405c539894d25ab8dcf0b79eed3341e109.jpg",
         "timestamp": "4 hours ago",
         "likes": 2,
         "comments": [
@@ -331,8 +331,8 @@
         "logname": "awdeorio",
         "postid": "3",
         "owner": "awdeorio",
-        "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-        "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+        "owner_img_url": "../static/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+        "img_url": "../static/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
         "timestamp": "10 minutes ago",
         "likes": 1,
         "comments": [
@@ -358,8 +358,8 @@
         "logname": "awdeorio",
         "postid": "4",
         "owner": "jag",
-        "owner_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
-        "img_url": "/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg",
+        "owner_img_url": "../static/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg",
+        "img_url": "../static/uploads/2ec7cf8ae158b3b1f40065abfb33e81143707842.jpg",
         "timestamp": "seconds ago",
         "likes": 0,
         "comments": [
@@ -378,7 +378,7 @@
         "not_following": [
           {
             "username": "jag",
-            "user_img_url": "/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg"
+            "user_img_url": "../static/uploads/73ab33bd357c3fd42292487b825880958c595655.jpg"
           }
         ]
       }
