@@ -1,78 +1,48 @@
-"""P2 autograder utility functions."""
-import pathlib
-import shutil
-import subprocess
-import filecmp
+"""P3 utility functions."""
+import re
+import time
 from pathlib import Path
+import logging
+import conftest
 
 
-# Temporary directory. Tests will create files here.
-TMPDIR = pathlib.Path("tmp")
+# Temporary directory.  Tests will create files here.
+TMPDIR = Path("tmp")
 
-# Directory containing unit tests
-TEST_DIR = pathlib.Path(__file__).parent
+# Directory containing unit tests.  Tests look here for input files.
+TEST_DIR = Path(__file__).parent
 
-# Directory containing unit test input files
-TESTDATA_DIR = TEST_DIR/"testdata"
-
-
-def get_input_dir(basename):
-    """Return absolute path of input directory."""
-    if TEST_DIR.name == "autograder":
-        # In the autograder environment, inputs are in autograder/testdata/
-        return TEST_DIR/"testdata"/basename
-
-    # In the student environment, look for inputs in the project root,
-    # which we assume to be the present working directory.
-    return pathlib.Path(basename)
+# Set up logging
+LOGGER = logging.getLogger("autograder")
 
 
-def get_output_dir(basename):
-    """Return absolute path of html output directory."""
-    if TEST_DIR.name == "autograder":
-        # Autograder environment example: autograder/testdata/<basename>/html
-        return TEST_DIR/"testdata"/basename/"html"
+def wait_for_api_calls(path, n_calls, timeout=conftest.IMPLICIT_WAIT_TIME):
+    """Return when 'path' contains >='calls' lines or timeout occurs."""
+    flask_log = ""
+    pattern = re.compile(r"/api/.*$")  # Regex that matches API calls
+    for _ in range(2 * timeout):
+        flask_log = Path(path).read_text()
+        cur_calls = len(pattern.findall(flask_log))
+        if cur_calls >= n_calls:
+            break
+        LOGGER.info("Waiting for %s lines in '%s'", n_calls, path)
+        time.sleep(0.5)
+    return flask_log
 
-    # Student environment example: <basename>/html
-    basename = pathlib.Path(basename)
-    return basename/"html"
 
+def scroll_to_bottom_of_page(driver):
+    """Scroll to bottom of the page by finding the tallest DOM element."""
+    get_largest_height_script = """
+        let elements = document.getElementsByTagName("*");
+        let current_max = 0;
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i].scrollHeight > current_max) {
+                current_max = elements[i].scrollHeight;
+            }
+        }
+        return current_max;
+    """
+    largest_height = driver.execute_script(get_largest_height_script)
 
-def assert_template_not_hardcoded(template_path):
-    """Detect if jinja templates are hardcoded."""
-    template_path = Path(template_path)
-    stem = template_path.stem  # explore.html -> explore
-
-    # Create two sites directories to run generator on with different configs
-    site1_dir = TMPDIR/"template_not_hardcoded"/stem/"site1"
-    site2_dir = TMPDIR/"template_not_hardcoded"/stem/"site2"
-    shutil.rmtree(site1_dir, ignore_errors=True)
-    shutil.rmtree(site2_dir, ignore_errors=True)
-    site1_dir.mkdir(parents=True)
-    site2_dir.mkdir(parents=True)
-
-    # Copy jinja_check_configs for the given template type
-    config_1 = TESTDATA_DIR/"template_not_hardcoded"/stem/"1/config.json"
-    config_2 = TESTDATA_DIR/"template_not_hardcoded"/stem/"2/config.json"
-    shutil.copy(config_1, site1_dir)
-    shutil.copy(config_2, site2_dir)
-
-    # Copy ALL student templates.  We copy everything to ensure that template
-    # inheritance works correctly, e.g., "base.html".
-    shutil.copytree(template_path.parent, site1_dir/"templates")
-    shutil.copytree(template_path.parent, site2_dir/"templates")
-
-    # Generate the two single site pages
-    subprocess.run(["insta485generator", site1_dir], check=True)
-    subprocess.run(["insta485generator", site2_dir], check=True)
-
-    # Verify that pages are created
-    site1_index = site1_dir/"html/index.html"
-    site2_index = site2_dir/"html/index.html"
-    assert site1_index.exists()
-    assert site2_index.exists()
-
-    # Verify two rendered pages are different.  If they were hardcoded, they
-    # would be the same.
-    assert not filecmp.cmp(site1_index, site2_index, shallow=False), \
-        "Templates fail to generate unique sites using different configs"
+    scroll_script = "window.scrollTo(0, {});".format(largest_height)
+    driver.execute_script(scroll_script)

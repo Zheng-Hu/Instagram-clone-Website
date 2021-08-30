@@ -1,3 +1,0 @@
-[console_scripts]
-insta485generator = insta485generator.__main__:main
-

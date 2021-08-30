@@ -1,5 +1,5 @@
 """
-EECS 485 project 1 static site generator.
+Insta485 python package configuration.
 
 Andrew DeOrio <awdeorio@umich.edu>
 """
@@ -7,25 +7,21 @@ Andrew DeOrio <awdeorio@umich.edu>
 from setuptools import setup
 
 setup(
-    name='insta485generator',
+    name='insta485',
     version='0.1.0',
-    packages=['insta485generator'],
+    packages=['insta485'],
     include_package_data=True,
     install_requires=[
+        'arrow',
         'bs4',
-        'click',
+        'Flask',
         'html5validator',
-        'jinja2',
         'pycodestyle',
         'pydocstyle',
         'pylint',
         'pytest',
         'requests',
+        'selenium',
     ],
     python_requires='>=3.6',
-    entry_points={
-        'console_scripts': [
-            'instag485enerator = insta485generator.__main__:main'
-        ]
-    },
 )
