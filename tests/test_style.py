@@ -28,6 +28,7 @@ def test_pylint():
         "pylint",
         "--rcfile", utils.TEST_DIR/"testdata/pylintrc",
         "--disable=cyclic-import",
+        "--disable=assigning-non-slot",
         "--unsafe-load-any-extension=y",
         "setup.py",
         "insta485",
@@ -74,6 +75,5 @@ def assert_no_prohibited_terms(*terms):
         # term was not found.  If the exit code is zero, crash and print a
         # helpful error message with a filename and line number.
         assert completed_process.returncode != 0, (
-            "The term '{term}' is prohibited.\n{message}"
-            .format(term=term, message=completed_process.stdout)
+            f"The term \'{term}\' is prohibited.\n{completed_process.stdout}"
         )

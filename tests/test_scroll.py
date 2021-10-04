@@ -66,7 +66,7 @@ def test_infinite_scroll(live_server, driver):
     # Verify 10 most recent posts are on the page (postids 6-15 inclusive)
     for post_id in range(6, 15 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )
 
     # Scroll to the bottom of the page
@@ -136,7 +136,7 @@ def test_infinite_scroll_many(live_server, driver):
     # subsequent check for the number of posts depends on all 10 being loaded.
     for post_id in range(25, 34 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )
     posts = driver.find_elements_by_xpath("//a[contains(@href, '/posts/')]")
     assert len(posts) == 10
@@ -147,7 +147,7 @@ def test_infinite_scroll_many(live_server, driver):
     # Verify 20 posts
     for post_id in range(15, 34 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )
     posts = driver.find_elements_by_xpath("//a[contains(@href, '/posts/')]")
     assert len(posts) == 20
@@ -158,7 +158,7 @@ def test_infinite_scroll_many(live_server, driver):
     # Verify 30 posts
     for post_id in range(5, 34 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )
     posts = driver.find_elements_by_xpath("//a[contains(@href, '/posts/')]")
     assert len(posts) == 30
@@ -231,7 +231,7 @@ def test_scroll_refresh(live_server, driver):
     # Verify 10 most recent posts are on the page (postids 2-11 inclusive)
     for post_id in range(6, 15 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )
 
     # Scroll to the bottom of the page
@@ -250,5 +250,5 @@ def test_scroll_refresh(live_server, driver):
     # Verify 10 most recent posts are on the page
     for post_id in range(7, 16 + 1):
         assert driver.find_elements_by_xpath(
-            "//a[@href='/posts/{}/']".format(post_id)
+            f"//a[@href='/posts/{post_id}/']"
         )

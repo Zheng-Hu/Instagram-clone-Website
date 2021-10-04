@@ -21,7 +21,7 @@ def wait_for_api_calls(path, n_calls, timeout=conftest.IMPLICIT_WAIT_TIME):
     flask_log = ""
     pattern = re.compile(r"/api/.*$")  # Regex that matches API calls
     for _ in range(2 * timeout):
-        flask_log = Path(path).read_text()
+        flask_log = Path(path).read_text(encoding='utf-8')
         cur_calls = len(pattern.findall(flask_log))
         if cur_calls >= n_calls:
             break
@@ -44,5 +44,5 @@ def scroll_to_bottom_of_page(driver):
     """
     largest_height = driver.execute_script(get_largest_height_script)
 
-    scroll_script = "window.scrollTo(0, {});".format(largest_height)
+    scroll_script = f"window.scrollTo(0, {largest_height});"
     driver.execute_script(scroll_script)

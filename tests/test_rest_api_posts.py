@@ -1,5 +1,6 @@
 """Unit tests for posts routes in REST API."""
 import pathlib
+from base64 import b64encode
 import sqlite3
 
 
@@ -11,76 +12,20 @@ def delete_created_time(response_json):
     return response_json
 
 
-def test_resources(client):
-    """Verify GET requests to initial endpoint.
+def test_posts_list(client):
+    """Verify GET requests to posts list endpoint.
 
     Note: 'client' is a fixture fuction that provides a Flask test server
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
-
-    # Verify response with information listed in the spec.
-    response = client.get("/api/v1/")
-    assert response.status_code == 200
-    assert response.get_json() == {
-        "posts": "/api/v1/posts/",
-        "comments": "/api/v1/comments/",
-        "likes": "/api/v1/likes/",
-        "url": "/api/v1/",
-    }
-
-
-def test_security(client):
-    """Verify error response when user is not logged in.
-
-    Note: 'client' is a fixture fuction that provides a Flask test server
-    interface with a clean database.  It is implemented in conftest.py and
-    reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
-    """
-    response = client.get("/")
-    assert response.status_code == 302  # Redirect to login page
-
-    response = client.get("/api/v1/")
-    assert response.status_code == 200  # Publicly available
-
-    response = client.get("/api/v1/posts/?page=1")
-    assert response.status_code == 403
-
-    response = client.get("/api/v1/posts/?size=1")
-    assert response.status_code == 403
-
-    response = client.get("/api/v1/posts/")
-    assert response.status_code == 403
-
-
-def test_posts(client):
-    """Verify GET requests to 'posts' endpoint.
-
-    Note: 'client' is a fixture fuction that provides a Flask test server
-    interface with a clean database.  It is implemented in conftest.py and
-    reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
-    """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # Verify response with default database content
-    response = client.get("/api/v1/posts/")
+    response = client.get(
+        "/api/v1/posts/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -196,6 +141,68 @@ def test_posts(client):
     }
 
 
+def test_posts_detail(client):
+    """Verify GET requests to posts detail endpoint.
+
+    Note: 'client' is a fixture fuction that provides a Flask test server
+    interface with a clean database.  It is implemented in conftest.py and
+    reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
+    """
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
+    response = client.get(
+        "/api/v1/posts/3/",
+        headers={"Authorization": f"Basic {credentials}"},
+    )
+    assert response.status_code == 200
+
+    # Overwrite timestamps, which will be different
+    response_json = response.get_json()
+    response_json["created"] = ""
+
+    # Compare with correct response
+    assert response_json == {
+        "comments": [
+            {
+                "commentid": 1,
+                "lognameOwnsThis": True,
+                "owner": "awdeorio",
+                "ownerShowUrl": "/users/awdeorio/",
+                "text": "#chickensofinstagram",
+                "url": "/api/v1/comments/1/"
+            },
+            {
+                "commentid": 2,
+                "lognameOwnsThis": False,
+                "owner": "jflinn",
+                "ownerShowUrl": "/users/jflinn/",
+                "text": "I <3 chickens",
+                "url": "/api/v1/comments/2/"
+            },
+            {
+                "commentid": 3,
+                "lognameOwnsThis": False,
+                "owner": "michjc",
+                "ownerShowUrl": "/users/michjc/",
+                "text": "Cute overload!",
+                "url": "/api/v1/comments/3/"
+            }
+        ],
+        "created": "",
+        "imgUrl": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
+        "likes": {
+            "lognameLikesThis": True,
+            "numLikes": 1,
+            "url": "/api/v1/likes/6/"
+        },
+        "owner": "awdeorio",
+        "ownerImgUrl": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+        "ownerShowUrl": "/users/awdeorio/",
+        "postShowUrl": "/posts/3/",
+        "postid": 3,
+        "url": "/api/v1/posts/3/"
+    }
+
+
 def test_posts_autoincrement(db_connection):
     """Verify database uses AUTOINCREMENT for postids.
 
@@ -203,7 +210,7 @@ def test_posts_autoincrement(db_connection):
     students an early warning if they make this mistake.
     """
     # Load student schema.sql
-    schema_sql = pathlib.Path("sql/schema.sql").read_text()
+    schema_sql = pathlib.Path("sql/schema.sql").read_text(encoding='utf-8')
     assert "PRAGMA foreign_keys = ON" in schema_sql
     db_connection.executescript(schema_sql)
     db_connection.commit()
@@ -247,14 +254,7 @@ def test_posts_pagination_simple(client):
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
     # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # Delete all likes, comments and posts.  The default database contains
     # postids {1,2,3,4}.  We're going to delete those and add new posts later
@@ -275,7 +275,10 @@ def test_posts_pagination_simple(client):
     connection.close()
 
     # GET request with defaults return 10 most recent items
-    response = client.get("/api/v1/posts/")
+    response = client.get(
+        "/api/v1/posts/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -449,7 +452,10 @@ def test_posts_pagination_simple(client):
     # GET request to second page returns 1 item, which is the first of our 11
     # new posts (the oldest).  Remember that our 11 posts are postids 5 to 15.
     # Thus, the postid of the oldest post is 5.
-    response = client.get("/api/v1/posts/?size=10&page=1&postid_lte=15")
+    response = client.get(
+        "/api/v1/posts/?size=10&page=1&postid_lte=15",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -484,15 +490,7 @@ def test_posts_pagination_page_size(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # Delete all likes, comments and posts.  The default database contains
     # postids {1,2,3,4}.  We're going to delete those and add new posts later
@@ -513,7 +511,10 @@ def test_posts_pagination_page_size(client):
     connection.close()
 
     # GET page 1 size 6
-    response = client.get("/api/v1/posts/?size=6")
+    response = client.get(
+        "/api/v1/posts/?size=6",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -621,7 +622,10 @@ def test_posts_pagination_page_size(client):
     }
 
     # GET page 2 size 6
-    response = client.get("/api/v1/posts/?size=6&page=1&postid_lte=15")
+    response = client.get(
+        "/api/v1/posts/?size=6&page=1&postid_lte=15",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -742,18 +746,13 @@ def test_posts_pagination_upload_between_requests(client):
     connection.commit()
     connection.close()
 
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # GET request with defaults return 10 most recent items
-    response = client.get("/api/v1/posts/")
+    response = client.get(
+        "/api/v1/posts/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     response_json = delete_created_time(response.get_json())
 
@@ -936,7 +935,10 @@ def test_posts_pagination_upload_between_requests(client):
 
     # GET request to second page returns no items, it should ignore the new
     # post we added.
-    response = client.get("/api/v1/posts/?size=10&page=1&postid_lte=14")
+    response = client.get(
+        "/api/v1/posts/?size=10&page=1&postid_lte=14",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     assert response.get_json() == {
         "next": "",
@@ -952,27 +954,34 @@ def test_posts_pagination_errors(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
+
+    response = client.get(
+        "/api/v1/posts/1000/",
+        headers={"Authorization": f"Basic {credentials}"}
     )
-
-    response = client.get("/api/v1/posts/1000/")
     assert response.status_code == 404
 
-    response = client.get("/api/v1/posts/1000/comments/")
+    response = client.get(
+        "/api/v1/posts/1000/comments/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 404
 
-    response = client.get("/api/v1/posts/1000/likes/")
+    response = client.get(
+        "/api/v1/posts/1000/likes/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 404
 
-    response = client.get("/api/v1/posts/?page=-1")
+    response = client.get(
+        "/api/v1/posts/?page=-1",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 400
 
-    response = client.get("/api/v1/posts/?size=-1")
+    response = client.get(
+        "/api/v1/posts/?size=-1",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 400

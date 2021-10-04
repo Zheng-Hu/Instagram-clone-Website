@@ -1,0 +1,13 @@
+#!/bin/bash
+#insta485test
+
+set -Eeuo pipefail
+set -x
+
+pycodestyle insta485
+
+pydocstyle insta485
+
+pylint --disable=cyclic-import insta485
+
+pytest -v tests

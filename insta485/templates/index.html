@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    {{user}}
+    <a href="/" target="_blank">Insta485</a>
+    <a href="/explore/" target="_blank">explore</a>
+    <a href="/u/{{user}}/" target="_blank">{{user}}</a> <br />
+
+    {% for post in posts %}
+      <img src= {{post["owner_img"]}} alt=""  width="150" height="100">
+      <a href="/u/{{post['owner']}}/" target="_blank">{{post['owner']}}</a>
+      <a href="/p/{{post['postid']}}/" target="_blank">{{post['created']}}</a>
+      <a href="/u/{{post['owner']}}/" target="_blank"><img src={{post["filename"]}} alt="image"  width="600" height="400"></a>
+
+      {% if post['likes'] == 0 %}
+        0 likes
+      {% elif post['likes'] == 1%}
+        1 like
+      {% else %}
+        {{post['likes']}} likes
+      {% endif %}
+
+      <br\>
+
+
+      {% for comment in post['Comments'] %}
+        <a href="/u/{{comment['owner']}}/" target="_blank">{{comment['owner']}}</a>
+        {{comment['text']}}
+        <br\>
+      {% endfor %}
+
+
+      {% if post["unlike"] != 0 %}  
+        <form action="/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value="{{post["postid"]}}"/>
+        <input type="submit" name="unlike" value="unlike"/>
+        </form>
+      {% else %}
+
+        <form action="/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value="{{post["postid"]}}"/>
+        <input type="submit" name="like" value="like"/>
+        </form>
+      {% endif %}
+    
+      <form action="/" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="postid" value= "{{post["postid"]}}"/>
+      <input type="text" name="text"/>
+      <input type="submit" name="comment" value="comment"/>
+      </form>
+    <br \>
+    {% endfor %}
+  </body>
+</html>
+
+

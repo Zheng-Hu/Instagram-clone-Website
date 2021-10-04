@@ -157,7 +157,7 @@ def test_new_comment(live_server, driver):
     test_feed_load(live_server, driver)
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Find comment field on for postid 3, which is the first one on the page
     comment_fields = driver.find_elements_by_xpath(
@@ -197,7 +197,7 @@ def test_delete_comment(live_server, driver):
     test_feed_load(live_server, driver)
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Verify awdeorio comment on post 3 exists
     assert driver.find_elements_by_xpath(
@@ -249,7 +249,7 @@ def test_new_comment_delete(live_server, driver):
     test_feed_load(live_server, driver)
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Find comment field on for postid 3, which is the first one on the page
     comment_fields = driver.find_elements_by_xpath(
@@ -275,7 +275,7 @@ def test_new_comment_delete(live_server, driver):
     assert "POST /api/v1/comments/?postid=3" in flask_log
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Click the second delete button which should be for new comment
     delete_buttons = driver.find_elements_by_xpath(
@@ -319,7 +319,7 @@ def test_like_unlike(live_server, driver):
     test_feed_load(live_server, driver)
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Click the first like button
     like_buttons = driver.find_elements_by_xpath(
@@ -370,7 +370,7 @@ def test_double_click_like(live_server, driver):
     test_feed_load(live_server, driver)
 
     # Clear the Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Check that the like buttons exist
     like_buttons = driver.find_elements_by_xpath(
@@ -474,7 +474,7 @@ def test_refresh(live_server, driver):
     jflinn_login_and_create_fox_post(live_server)
 
     # Clear Flask request log
-    Path("flask.log").write_text("")
+    Path("flask.log").write_text("", encoding='utf-8')
 
     # Refresh
     driver.refresh()
@@ -516,7 +516,7 @@ def test_html(live_server, driver):
     html = soup.prettify()
 
     # Write HTML of current page source to file
-    index_path.write_text(html)
+    index_path.write_text(html, encoding='utf-8')
 
     # Run html5validator on the saved file
     print("html5validator tmp/index.html")

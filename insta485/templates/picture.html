@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>insta485</title>
+</head>
+
+<body>
+    <a href="/" target="_blank">Insta485</a>
+    <a href="/explore/" target="_blank">explore</a>
+    <a href="/u/{{user}}/" target="_blank">{{user}}</a>
+    <br/>
+    <br/>
+
+    
+    <img src= {{posts[0]["owner_img"]}} alt="Icon"  width="75" height="75">
+    <a href="/u/{{posts[0]["owner"]}}/" target="_blank">{{posts[0]["owner"]}}</a>
+    <a href="/p/{{postid}}/" target="_blank">{{posts[0]["time"]}}</a> <br/>
+
+    <a href="/u/{{posts[0]["owner"]}}/" target="_blank"><img src={{posts[0]["img"]}} alt="image"  width="600" height="400"></a> <br\>
+
+    {% if posts[0]["likes"] == 0 %}
+        0 likes
+    {% elif posts[0]["likes"] == 1%}
+        1 like
+    {% else %}
+        {{posts[0]["likes"]}} likes
+    {% endif %}
+    <br/>
+
+    {% for comment in posts[0]["comments"] %}
+        <a href="/u/{{comment['owner']}}/" target="_blank">{{comment['owner']}}</a>
+        {{comment['text']}}
+        <br/>
+        {% if comment['owner'] == user %}
+            <form action="/p/{{postid}}/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="commentid" value="{{comment["commentid"]}}"/>
+            <input type="submit" name="uncomment" value="delete"/>
+            </form>
+            
+        {% endif %}
+        <br/>
+    {% endfor %}
+
+    
+    {% if posts[0]["unlike"] != 0 %}  
+        <form action="/p/{{postid}}/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value={{postid}}/>
+        <input type="submit" name="unlike" value="unlike"/>
+        </form>
+    {% else %}
+        <form action="/p/{{postid}}/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value={{postid}}/>
+        <input type="submit" name="like" value="like"/>
+        </form>
+    {% endif %}
+    <br/>
+
+    <form action="/p/{{postid}}/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value= {{postid}}/>
+        <input type="text" name="text"/>
+        <input type="submit" name="comment" value="comment"/>
+    </form>
+    <br/>
+    {% if posts[0]["owner"] == user %}
+        <form action="/p/{{postid}}/" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="postid" value="{{postid}}"/>
+        <input type="submit" name="delete" value="delete this post"/>
+        </form>
+    {% endif %}
+</body>
+
+</html>
+

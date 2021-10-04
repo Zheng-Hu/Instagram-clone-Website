@@ -20,7 +20,8 @@ def test_executables():
 
 def test_insta485install():
     """Verify insta485test contains the right commands."""
-    insta485test_content = Path("bin/insta485install").read_text()
+    insta485test_content = Path("bin/insta485install")\
+        .read_text(encoding='utf-8')
     assert "python3 -m venv" in insta485test_content
     assert "source env/bin/activate" in insta485test_content
     assert (

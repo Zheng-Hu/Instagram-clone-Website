@@ -222,8 +222,9 @@ def setup_teardown_selenium_driver(chromedriver_path):
     # Clean up the browser processes started by Selenium
     driver.quit()
 
+    errors = "\n".join(console_log_errors)
     assert not console_log_errors,\
-        "Errors in browser console:\n{}".format("\n".join(console_log_errors))
+        f"Errors in browser console:\n{errors}"
 
 
 @pytest.fixture(name='slow_driver')
@@ -367,7 +368,7 @@ class LiveServer:
 
     def url(self):
         """Return base URL of running server."""
-        return "http://localhost:{port}/".format(port=self.port)
+        return f"http://localhost:{self.port}/"
 
     def start(self):
         """Start server."""
@@ -400,8 +401,8 @@ class LiveServer:
         """Call urlopen() in a loop, returning False if it times out."""
         for _ in range(SERVER_START_STOP_TIMEOUT):
             try:
-                urllib.request.urlopen(self.url())
-                return True
+                with urllib.request.urlopen(self.url()):
+                    return True
             except urllib.error.HTTPError as err:
                 # HTTP 404 and friends indicate a working server
                 if err.code < 500:

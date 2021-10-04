@@ -1,34 +1,31 @@
 """Unit tests for likes and comments routes in REST API."""
 import json
+from base64 import b64encode
 
 
 def test_likes_delete(client):
-    """Verify DELETE 'likes' endpoint.
+    """Verify DELETE 'likes' endpoint using Basic HTTP auth.
 
     Note: 'client' is a fixture fuction that provides a Flask test server
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # DELETE likes
     response = client.delete(
         "/api/v1/likes/6/",
         data=json.dumps({}),
+        headers={"Authorization": f"Basic {credentials}"},
         content_type="application/json",
     )
     assert response.status_code == 204
 
     # Verify number of likes
-    response = client.get("/api/v1/posts/3/")
+    response = client.get(
+        "/api/v1/posts/3/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     assert response.get_json()["likes"] == {
         "numLikes": 0,  # Changed from 1 to 0
@@ -44,25 +41,21 @@ def test_likes_post(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "jag",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"jag:password").decode('utf-8')
 
     # POST likes (jag likes his own post)
     response = client.post(
         "/api/v1/likes/?postid=4",
         data=json.dumps({}),
+        headers={"Authorization": f"Basic {credentials}"},
         content_type="application/json")
     assert response.status_code == 201
 
     # Verify number of likes
-    response = client.get("/api/v1/posts/4/")
+    response = client.get(
+        "/api/v1/posts/4/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
     assert response.get_json()["likes"] == {
         "numLikes": 1,  # Changed from 0 to 1
@@ -78,20 +71,13 @@ def test_likes_error(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # awdeorio likes a post that he already liked
     response = client.post(
         "/api/v1/likes/?postid=3",
         data=json.dumps({}),
+        headers={"Authorization": f"Basic {credentials}"},
         content_type="application/json",
     )
     assert response.status_code == 409
@@ -105,25 +91,21 @@ def test_comments_post(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # POST comments
     response = client.post(
         "/api/v1/comments/?postid=3",
         data=json.dumps({"text": "new comment"}),
+        headers={"Authorization": f"Basic {credentials}"},
         content_type="application/json")
     assert response.status_code == 201
 
     # Verify comments
-    response = client.get("/api/v1/posts/3/")
+    response = client.get(
+        "/api/v1/posts/3/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
 
     assert response.get_json()["comments"] == [
@@ -172,22 +154,20 @@ def test_comments_delete(client):
     interface with a clean database.  It is implemented in conftest.py and
     reused by many tests.  Docs: https://docs.pytest.org/en/latest/fixture.html
     """
-    # Log in
-    client.post(
-        "/accounts/",
-        data={
-            "operation": "login",
-            "username": "awdeorio",
-            "password": "password"
-        }
-    )
+    credentials = b64encode(b"awdeorio:password").decode('utf-8')
 
     # DELETE comment
-    response = client.delete("/api/v1/comments/1/")
+    response = client.delete(
+        "/api/v1/comments/1/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 204
 
     # Verify comments
-    response = client.get("/api/v1/posts/3/")
+    response = client.get(
+        "/api/v1/posts/3/",
+        headers={"Authorization": f"Basic {credentials}"}
+    )
     assert response.status_code == 200
 
     assert response.get_json()["comments"] == [

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <a href="/" target="_blank">Insta485</a>
+        <a href="/explore/" target="_blank">explore</a>
+        <a href="/u/{{user}}/" target="_blank">{{user}}</a><br>
+
+        <h1> Following </h1>
+
+        {% for following in followings %}
+
+            {% if user != following['username'] and following['fol'] != 0 %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank"> {{following['username']}}</a>
+                following
+
+                <form action="/u/{{page}}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value= "{{following["username"]}}" />
+                </form>
+
+            {% elif user != following['username'] and following['fol'] == 0 %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank">{{following['username']}}</a>
+                not following
+               
+                <form action="/u/{{page}}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{following["username"]}}"/>
+                </form>
+            {% else %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank">{{following['username']}}</a>
+            {% endif %}
+            
+
+
+          
+        {% endfor %}
+  
+
+
+    </body>
+
+</html>
