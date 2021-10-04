@@ -1,9 +1,0 @@
-bs4
-click
-html5validator
-jinja2
-pycodestyle
-pydocstyle
-pylint
-pytest
-requests

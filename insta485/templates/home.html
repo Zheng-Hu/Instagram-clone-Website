@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <a href="/" target="_blank">Insta485</a>
+        <a href="/explore/" target="_blank">explore</a>
+        <a href="/u/{{user}}/" target="_blank">{{user}}</a><br>
+
+
+        <h1> {{page}} </h1> <br/>
+       
+
+            {% if homepage[0]['fol'] == -1 %}
+                <a href="/accounts/edit/" target="_blank">Edit profile</a> <br/>
+
+                {# logout #}
+                <form action="/u/{{page}}/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="logout" value="Logout"/>
+                </form> <br/>
+
+                {# file upload #}
+                <form action="/u/{{page}}/" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file">
+                    <input type="submit" name="create_post" value="upload new post"/>
+                </form>
+            
+            {% elif homepage[0]['fol'] == 0 %}
+                Not following
+                <form action="/u/{{page}}/" method="post" enctype="multipart/form-data">
+                <input type="submit" name="follow" value="follow"/>
+                <input type="hidden" name="username" value="{{page}}"/>
+                </form>
+
+            {% else %}
+                following
+                <form action="/u/{{page}}/" method="post" enctype="multipart/form-data">
+                <input type="submit" name="unfollow" value="unfollow"/>
+                <input type="hidden" name="username" value= "{{page}}"/>
+                </form>
+  
+            {% endif %}
+
+            {#Number of posts, with correct English#}
+            {% if homepage[0]['num'] == 0 %}
+                0 post
+            {% elif homepage[0]['num'] == 1 %}  
+                1 post
+            {% else %}
+                {{homepage[0]['num']}} posts
+            {% endif %}
+          
+
+            {#Number of followers, with correct English#}
+            {% if homepage[0]['num_follower'] > 1%}
+            <a href="/u/{{page}}/followers/" target="_blank">{{homepage[0]['num_follower']}} followers</a>
+            {% else %}
+            <a href="/u/{{page}}/followers/" target="_blank">{{homepage[0]['num_follower']}} follower</a>
+            {% endif %}
+
+            {#Number of following, with correct English#}
+
+            <a href="/u/{{page}}/following/" target="_blank">{{homepage[0]['num_following']}} following</a>
+            
+            {#Name#}
+            {{homepage[0]['fullname']}}
+            <br/>
+
+            {% if homepage[0]['num'] != 0 %}
+                {% for post in homepage %}
+                    <a href="/p/{{post['id']}}/" target="_blank"> <img src= {{post['img']}} alt="Relevant textual alternative to the image"   width="150" height="100"> </a>
+                    <br/>
+                {% endfor %}
+            {% endif %}
+    </body>
+
+</html>

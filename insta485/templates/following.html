@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>insta485</title>
-        <link rel = "stylesheet" href="/insta485/html/style.css"> 
-    </head>
     <body>
-    <!-- 头部banner -->
-    <header id = "topbar">
-        <!-- 左边Logo -->
-        <class id = "logo">
-            <a href="/"><img src = "/insta485/static//images/instagramLogo.jpeg" width="100" height="70"></a>
-            <a href="/"><img src = "/insta485/static/images/instagram.jpg" width="119" height="36"> </a>
-        </class>
-        <!-- 右边导航 -->
-        <nav id = "topnav">
-            <ul>
-                <li><a href = "/explore/">explore</a></li>
-                <li><a href = "/u/{{logname}}/" >{{logname}}</a></li>
-            </ul>
-        </nav>
-    </header>
+        <a href="/" target="_blank">Insta485</a>
+        <a href="/explore/" target="_blank">explore</a>
+        <a href="/u/{{user}}/" target="_blank">{{user}}</a><br>
 
-    Following
-    {% for followings in following %}
-        {% if logname != followings['username'] and followings['logname_follows_username']%}
-            <img src= {{followings['user_img_url']}} alt="Icon">
-            <a href="/u/{{followings['username']}}/" target="_blank"><{{followings['username']}}></a>
-            following
-        {% elif logname != followings['username'] and  not followings['logname_follows_username']%}
-            <img src= {{followings['user_img_url']}} alt="Icon">
-            <a href="/u/{{followings['username']}}/" target="_blank"><{{followings['username']}}></a>
-            not following
-        {% else %}
-            <img src= {{followings['user_img_url']}} alt="Icon">
-            <a href="/u/{{followings['username']}}/" target="_blank"><{{followings['username']}}></a>
-        {% endif %}
-    {% endfor %}
-</body>
+        <h1> Following </h1>
+
+        {% for following in followings %}
+
+            {% if user != following['username'] and following['fol'] != 0 %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank"> {{following['username']}}</a>
+                following
+
+                <form action="/u/{{page}}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value= "{{following["username"]}}" />
+                </form>
+
+            {% elif user != following['username'] and following['fol'] == 0 %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank">{{following['username']}}</a>
+                not following
+               
+                <form action="/u/{{page}}/following/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{following["username"]}}"/>
+                </form>
+            {% else %}
+                <img src= {{following['img']}} alt="Icon" width="150" height="100">
+                <a href="/u/{{following['username']}}/" target="_blank">{{following['username']}}</a>
+            {% endif %}
+            
+
+
+          
+        {% endfor %}
+  
+
+
+    </body>
+
 </html>
-
-url

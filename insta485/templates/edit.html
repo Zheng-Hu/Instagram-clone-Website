@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <a href="/" target="_blank">Insta485</a>
+    <a href="/explore/" target="_blank">explore</a>
+    <a href="/u/{{user}}/" target="_blank">{{user}}</a>
+    <br/>
+
+    <img src= "{{file}}"" alt=""  width="150" height="100">
+    <a href="/u/{{user}}/" target="_blank">{{user}}</a>
+
+    <form action="/accounts/edit/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="text" name="fullname" value={{name}} />
+        <input type="text" name="email" value= {{e}} />
+        <input type="submit" name="update" value="submit"/>
+      </form>
+      <a href="/accounts/password/" target="_blank">Change password</a> <br/>
+      <a href="/accounts/delete/" target="_blank">Delete account</a>
+</body>
+</html>
