@@ -46,8 +46,8 @@ def login_required(f):
 
 def fetch_file(filename):
     dest = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-        'static', 'uploads', filename
+         os.path.dirname(os.path.dirname(os.path.realpath(__file__)))[:-9],
+        'var', 'uploads', filename
     )
     if not os.path.isfile(dest):
         source = os.path.join(
