@@ -15,14 +15,45 @@ def postid_range_required(f):
         return f(postid)
     return decorated_function
 
-def login_required(f):
+
+
+def check_password(password,password_db_string):
+  [algorithm, salt, password_hash] = password_db_string.split("$")
+  hash_obj = hashlib.new(algorithm)
+  password_salted = salt + password
+  hash_obj.update(password_salted.encode('utf-8'))
+  return hash_obj.hexdigest() == password_hash
+
+def check_authentication(f):
   @wraps(f)
   def decorated_function(*args,**kwargs):
-    if not flask.session.get('logged_in'):
-      flask.abort(403)
+    if flask.request.authorization == None and flask.sessions == None:
+      raise InvalidUsage('Forbidden', status_code=403)
+    elif flask.request.authorization != None:
+      username = flask.request.authorization['username']
+      password = flask.request.authorization['password']
+      db = insta485.model.get_db()
+      cur = db.execute("SELECT password FROM users WHERE username=?",(username,))
+      res = list(cur.fetchall())
+      if res.__len__ == 0 or not check_password(password,res[0]['password']):
+        raise InvalidUsage('Forbidden', status_code=403)
+    elif flask.sessions != None:
+        if not flask.session.get('logged_in'):
+          flask.abort(403)
+        username = flask.session["username"]
     return f(*args,**kwargs)
   return decorated_function
 
+def get_username():
+  if flask.session:
+    username = flask.session["username"]
+  elif flask.request.authorization:
+    username = flask.request.authorization['username']
+  else:
+    raise InvalidUsage('Forbidden', status_code=403)
+  return username
+  
+            
 @insta485.app.route('/api/v1/', methods = ["GET"])
 def api():
   context = {
@@ -34,24 +65,25 @@ def api():
   return flask.jsonify(**context);
 
 @insta485.app.route('/api/v1/posts/', methods =["GET"])
+@check_authentication
 def posts():
   db = insta485.model.get_db()
   size = flask.request.args.get("size",default=10,type=int)
   page = flask.request.args.get("page",default=0,type=int)
-  
+
+  username = get_username()
+    
   url = "/api/v1/posts/"
   context = {
       "url": url
   }
-
-
   cur = db.execute(
                    "SELECT p.created AS created, ('/uploads/' || p.filename) AS imgUrl, p.owner AS owner, "
                    "('/uploads/' || u.filename) AS ownerImgUrl, ('/users/' || u.username) AS ownerShowUrl, ('/posts/' || p.postid) AS postShowUrl, "
                    "p.postid AS postid, ('/api/v1/p/' || p.postid || '/') AS url " 
                    "FROM posts AS p JOIN users AS u ON p.owner=u.username "
                    "WHERE p.owner=? OR p.owner IN (SELECT username2 FROM following WHERE username1=?) ORDER BY created DESC, postid DESC LIMIT ? OFFSET ? * ?",\
-                   (flask.session["username"],flask.session["username"],size,size,page,))
+                   (username,username,size,size,page,))
   
   context['results'] = list(cur.fetchall())
   cur = db.execute( "SELECT * FROM (SELECT CASE likes.owner WHEN ? THEN true ELSE false END lognameLikesThis, "
@@ -61,11 +93,11 @@ def posts():
                      "(SELECT ('/api/v1/likes/' || likes.likeid || '/') AS url "
                      "FROM likes JOIN posts AS p ON likes.owner = ? AND likes.postid = p.postid "
                      "WHERE p.owner=? OR p.owner IN (SELECT username2 FROM following WHERE username1=?) ORDER BY p.created DESC, p.postid DESC LIMIT ? OFFSET ? * ?)",\
-                     (flask.session["username"], flask.session["username"],flask.session["username"], size, size, page, flask.session["username"], flask.session["username"],flask.session["username"], size, size, page, ))
+                     (username, username,username, size, size, page, username, username,username, size, size, page, ))
   context['likes'] = list(cur.fetchall())
   cur = db.execute("SELECT COUNT(*) AS num FROM posts WHERE owner=? OR "
                    "owner IN (SELECT username2 FROM following WHERE username1=?)", \
-                     (flask.session["username"],flask.session["username"],))
+                     (username,username,))
   if size*(page+1) >= cur.fetchall()[0]["num"]:
     context['next'] = ''
   else:
@@ -73,9 +105,12 @@ def posts():
   return flask.jsonify(**context);
 
 @insta485.app.route('/api/v1/posts/<int:postid>/', methods=["GET"])
-@login_required
+@check_authentication
 @postid_range_required
+
 def get_post(postid):
+    username = get_username()
+
     db = insta485.model.get_db()
     cur = db.execute("""SELECT p.created AS created, ('/uploads/' || p.filename) AS imgUrl, p.owner AS owner, 
         ('/uploads/' || u.filename) AS ownerImgUrl, ('/users/' || p.owner || '/') AS ownerShowUrl, 
@@ -86,14 +121,14 @@ def get_post(postid):
     cur = db.execute("SELECT comments.commentid AS commentid, CASE comments.owner WHEN ? THEN true ELSE false END lognameOwnsThis, "
                      "comments.owner AS owner, ('/users/' || comments.owner || '/') AS ownerShowUrl, "
                      "comments.text, ('/api/v1/comments/' || comments.commentid || '/') AS url "
-                     "FROM comments JOIN posts ON posts.postid = comments.postid WHERE posts.postid = ?",(flask.session["username"], postid,))
+                     "FROM comments JOIN posts ON posts.postid = comments.postid WHERE posts.postid = ?",(username, postid,))
     context["comments"] = list(cur.fetchall())
     
     cur = db.execute("SELECT * FROM (SELECT CASE likes.owner WHEN ? THEN true ELSE false END lognameLikesThis, "
                      "COUNT (*) AS numLikes FROM likes WHERE likes.postid = ?) "
                      "JOIN "
                      "(SELECT ('/api/v1/likes/' || likes.likeid || '/') AS url "
-                     "FROM likes WHERE likes.owner = ? AND likes.postid = ?)", (flask.session["username"], postid, flask.session["username"], postid, ))
+                     "FROM likes WHERE likes.owner = ? AND likes.postid = ?)", (username, postid, username, postid, ))
     
     context["likes"] = cur.fetchall()[0]
     cur = db.execute("")
@@ -101,40 +136,49 @@ def get_post(postid):
     return flask.jsonify(**context), 200
   
 
-@insta485.app.route('/api/v1/likes/?postid=<postid>',methods = ["POST","DELETE"])
-@login_required
-@postid_range_required
-def post_like(postid):
+@insta485.app.route('/api/v1/likes/<int:likeid>/',methods = ["POST","DELETE"])
+@check_authentication
+def like(likeid):
+  username = get_username()
+  
   db = insta485.model.get_db()
   if flask.request.method == "POST":
     try:
       context = {}
-      db.execute("INSERT INTO likes(owner,postid) VALUES (?,?)", (flask.session["username"],postid,))
+      db.execute("INSERT INTO likes(owner,postid) VALUES (?,?)", (username,likeid,))
       cur = db.execute("SELECT likes.likeid AS likeid, ('/api/v1/likes/' || likes.likeid || '/') AS url "
-                       "FROM likes WHERE likes.owner = ? AND likes.postid = ?",(flask.session["username"],postid,))
+                       "FROM likes WHERE likes.owner = ? AND likes.postid = ?",(username,likeid,))
       context = cur.fetchall()[0]
       return flask.jsonify(**context), 201
     except:
-      return 'Conflict', 409
+      raise InvalidUsage('Conflict', status_code=409)
   elif flask.request.method == "DELETE":
-    db.execute("DELETE FROM likes WHERE owner=? AND postid=?", (flask.session["username"],postid,))
-    return 'NO CONTENT', 204
-    
+    try:
+      db.execute("DELETE FROM likes WHERE owner=? AND likeid=?", (username,likeid,))
+      return 'NO CONTENT', 204
+    except:
+      return 'NO CONTENT', 204
 @insta485.app.route('/api/v1/comments/?postid=<postid>', methods = ["POST"])
-@login_required
+@check_authentication
 @postid_range_required
 def post_comments(postid):
+  
+  username = get_username()
+  
   db = insta485.model.get_db()
   if flask.request.method == "POST":
-    db.execute("INSERT INTO comments(owner,postid,text) VALUES (?,?,?)", (flask.session["username"],postid,flask.request.json["text"],))
+    db.execute("INSERT INTO comments(owner,postid,text) VALUES (?,?,?)", (username,postid,flask.request.json["text"],))
     return 201
 
 @insta485.app.route('/api/v1/comments/<commentid>/', methods = ["DELETE"])
-@login_required
+@check_authentication
 @postid_range_required 
 def delete_comment(commentid):
+  
+  username = get_username()
+  
   db = insta485.model.get_db()
   if flask.request.method == "DELETE":
-    db.execute("DELETE FROM comments WHERE owner = ? AND postid = ?", (flask.session["usernmae"],commentid,))
+    db.execute("DELETE FROM comments WHERE owner = ? AND postid = ?", (username,commentid,))
     return 'NO CONTENT', 204
     
