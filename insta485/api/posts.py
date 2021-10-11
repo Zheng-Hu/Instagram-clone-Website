@@ -1,10 +1,31 @@
 """REST API for posts."""
 import flask
-from flask import sessions
+from flask import jsonify, hashlib
 import insta485
 from functools import wraps
 
+class InvalidUsage(Exception):
+    status_code = 400
 
+    def __init__(self, message='Bad Request', status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        rv["status_code"] = self.status_code
+        return rv
+
+@insta485.app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+  
 def postid_range_required(f):
     @wraps(f)
     def decorated_function(postid):
@@ -14,8 +35,6 @@ def postid_range_required(f):
           flask.abort(404)
         return f(postid)
     return decorated_function
-
-
 
 def check_password(password,password_db_string):
   [algorithm, salt, password_hash] = password_db_string.split("$")
