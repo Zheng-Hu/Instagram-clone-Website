@@ -130,9 +130,17 @@ def get_post(postid):
                      "(SELECT ('/api/v1/likes/' || likes.likeid || '/') AS url "
                      "FROM likes WHERE likes.owner = ? AND likes.postid = ?)", (username, postid, username, postid, ))
     
-    context["likes"] = cur.fetchall()[0]
-    cur = db.execute("")
-    print(cur.fetchall())
+    likes = cur.fetchall()
+
+    if len(likes)== 0:
+      context["likes"] = {
+        "numLikes": 0,  
+        "lognameLikesThis": 0,  
+        "url": None,
+      }
+    else:
+      context["likes"] = likes[0]
+
     return flask.jsonify(**context), 200
   
 

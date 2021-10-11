@@ -173,7 +173,7 @@ def test_comments_delete(client):
     assert response.get_json()["comments"] == [
         {
             "commentid": 2,
-            "lognameOwnsThis": False,
+            "lognameOwnsThis": 0,
             "owner": "jflinn",
             "ownerShowUrl": "/users/jflinn/",
             "text":
@@ -182,7 +182,7 @@ def test_comments_delete(client):
         },
         {
             "commentid": 3,
-            "lognameOwnsThis": False,
+            "lognameOwnsThis": 0,
             "owner": "michjc",
             "ownerShowUrl": "/users/michjc/",
             "text":
