@@ -1,24 +1,25 @@
 """REST API for posts."""
 import flask
-from flask import jsonify, hashlib
+from flask import jsonify,request
+import hashlib
 import insta485
 from functools import wraps
+import insta485
 
 class InvalidUsage(Exception):
-    status_code = 400
+  status_code = 400
+  def __init__(self, message='Bad Request', status_code=None, payload=None):
+      Exception.__init__(self)
+      self.message = message
+      if status_code is not None:
+          self.status_code = status_code
+      self.payload = payload
 
-    def __init__(self, message='Bad Request', status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        rv["status_code"] = self.status_code
-        return rv
+  def to_dict(self):
+      rv = dict(self.payload or ())
+      rv['message'] = self.message
+      rv["status_code"] = self.status_code
+      return rv
 
 @insta485.app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
@@ -126,7 +127,6 @@ def posts():
 @insta485.app.route('/api/v1/posts/<int:postid>/', methods=["GET"])
 @check_authentication
 @postid_range_required
-
 def get_post(postid):
     username = get_username()
 
@@ -162,50 +162,54 @@ def get_post(postid):
 
     return flask.jsonify(**context), 200
   
-
-@insta485.app.route('/api/v1/likes/<int:likeid>/',methods = ["POST","DELETE"])
+@insta485.app.route('/api/v1/likes/', methods=['POST'])
 @check_authentication
-def like(likeid):
-  username = get_username()
-  
-  db = insta485.model.get_db()
+def post_like():
   if flask.request.method == "POST":
-    try:
-      context = {}
-      db.execute("INSERT INTO likes(owner,postid) VALUES (?,?)", (username,likeid,))
-      cur = db.execute("SELECT likes.likeid AS likeid, ('/api/v1/likes/' || likes.likeid || '/') AS url "
-                       "FROM likes WHERE likes.owner = ? AND likes.postid = ?",(username,likeid,))
-      context = cur.fetchall()[0]
-      return flask.jsonify(**context), 201
-    except:
-      raise InvalidUsage('Conflict', status_code=409)
-  elif flask.request.method == "DELETE":
+    postid = request.args.get("postid")
+    username = get_username()
+    db = insta485.model.get_db()
+    cur = db.execute("SELECT * FROM likes WHERE owner =? AND postid = ?",(username,postid,))
+    if len(cur.fetchall()) != 0:
+      raise InvalidUsage("Conflict",409)
+    db.execute("INSERT INTO likes(owner,postid) VALUES (?,?)", (username,postid,))
+    cur = db.execute("SELECT likes.likeid AS likeid, ('/api/v1/likes/' || likes.likeid || '/') AS url "
+                      "FROM likes WHERE likes.owner = ? AND likes.postid = ?",(username,postid,))
+    context = cur.fetchall()[0]
+    return flask.jsonify(**context),201
+
+
+    
+@insta485.app.route('/api/v1/likes/<int:likeid>/',methods = ["DELETE"])
+@check_authentication
+def delete_like(likeid):
+  username = get_username()
+  db = insta485.model.get_db()
+  if flask.request.method == "DELETE":
     try:
       db.execute("DELETE FROM likes WHERE owner=? AND likeid=?", (username,likeid,))
       return 'NO CONTENT', 204
     except:
       return 'NO CONTENT', 204
-@insta485.app.route('/api/v1/comments/?postid=<postid>', methods = ["POST"])
+
+@insta485.app.route('/api/v1/comments/', methods = ["POST"])
 @check_authentication
-@postid_range_required
-def post_comments(postid):
+def post_comments():
   
   username = get_username()
-  
+  postid = flask.request.args['postid']
   db = insta485.model.get_db()
   if flask.request.method == "POST":
     db.execute("INSERT INTO comments(owner,postid,text) VALUES (?,?,?)", (username,postid,flask.request.json["text"],))
-    return 201
+    return 'Created', 201
 
 @insta485.app.route('/api/v1/comments/<commentid>/', methods = ["DELETE"])
 @check_authentication
-@postid_range_required 
 def delete_comment(commentid):
-  
   username = get_username()
-  
   db = insta485.model.get_db()
+  
   if flask.request.method == "DELETE":
-    db.execute("DELETE FROM comments WHERE owner = ? AND postid = ?", (username,commentid,))
+    db.execute("DELETE FROM comments WHERE owner = ? AND commentid = ?", (username,commentid,))
     return 'NO CONTENT', 204
     
